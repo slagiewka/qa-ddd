@@ -1,0 +1,6 @@
+jms_serializer:
+    metadata:
+        directories:
+            Domain:
+                namespace_prefix: 'Brainly\Domain'
+                path: "%kernel.project_dir%/app/Resources/config/serializer/domain"

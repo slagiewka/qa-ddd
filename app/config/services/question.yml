@@ -1,0 +1,6 @@
+services:
+    Brainly\Infrastructure\Domain\QuestionsRepository:
+        arguments:
+            - "@questions.repository"
+            - "@doctrine.orm.entity_manager"
+#        public: true

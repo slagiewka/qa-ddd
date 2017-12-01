@@ -1,0 +1,4 @@
+Brainly\Domain\Content:
+    type: embeddable
+    fields:
+        content: { type: text }

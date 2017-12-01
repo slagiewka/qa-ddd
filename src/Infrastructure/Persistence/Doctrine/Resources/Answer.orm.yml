@@ -1,0 +1,24 @@
+Brainly\Domain\Answer:
+    type: entity
+    table: answers
+    id:
+        uuid:
+            type: uuid
+            generator:
+                strategy: NONE
+    embedded:
+        content:
+            class: Brainly\Domain\Content
+            columnPrefix: false
+    fields:
+        createdAt:
+            type: integer
+            options:
+                unsigned: true
+    manyToOne:
+        question:
+            targetEntity: Brainly\Domain\Question
+            inversedBy: answers
+            joinColumn:
+                name: question_id
+                referencedColumnName: uuid

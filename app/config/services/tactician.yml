@@ -1,0 +1,17 @@
+services:
+    brainly.handler.ask_question:
+        class: Brainly\Application\Handler\AskQuestionHandler
+        arguments:
+            - '@Brainly\Infrastructure\Domain\QuestionsRepository'
+            - '@Brainly\Application\Question\Factory\DomainFactory'
+        tags:
+            - { name: tactician.handler, command: Brainly\Application\Command\AskQuestionCommand }
+
+    brainly.handler.answer_question:
+            class: Brainly\Application\Handler\AnswerQuestionHandler
+            arguments:
+                - '@Brainly\Infrastructure\Domain\AnswersRepository'
+                - '@Brainly\Application\Answer\Factory\DomainFactory'
+                - '@validator'
+            tags:
+                - { name: tactician.handler, command: Brainly\Application\Command\AnswerQuestionCommand }

@@ -1,0 +1,17 @@
+Brainly\Domain\Answer:
+    exclusion_policy: ALL
+    properties:
+        createdAt:
+            groups: [single_question, answers]
+        content:
+            groups: [single_question, answers]
+
+    virtual_properties:
+        content:
+            exp: object.content()
+            type: string
+            groups: [single_question, answers]
+        id:
+            exp: object.uuid()
+            type: string
+            groups: [single_question, answers]

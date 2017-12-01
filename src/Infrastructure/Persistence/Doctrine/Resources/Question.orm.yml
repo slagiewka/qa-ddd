@@ -1,0 +1,21 @@
+Brainly\Domain\Question:
+    type: entity
+    table: questions
+    id:
+        uuid:
+            type: uuid
+            generator:
+                strategy: NONE
+    embedded:
+        content:
+            class: Brainly\Domain\Content
+            columnPrefix: false
+    fields:
+        createdAt:
+            type: integer
+            options:
+                unsigned: true
+    oneToMany:
+        answers:
+            targetEntity: Brainly\Domain\Answer
+            mappedBy: question

@@ -1,0 +1,20 @@
+Brainly\Application\Command\AskQuestionCommand:
+    properties:
+        content:
+            - Type: string
+            - NotBlank: ~
+            - Length:
+                min: 20
+                max: 5000
+
+Brainly\Application\Command\AnswerQuestionCommand:
+    properties:
+        content:
+            - Type: string
+            - NotBlank: ~
+            - Length:
+                min: 20
+                max: 5000
+        question:
+            - Brainly\UserInterface\Symfony\AppBundle\Constraints\MaxAnswersNotExceeded:
+                message: 'Answering is possible only for questions with less than 2 answers.'
