@@ -3,3 +3,11 @@ services:
         arguments:
             - "@questions.repository"
             - "@doctrine.orm.entity_manager"
+
+
+    brainly.param_coverter.question_id_string:
+        class: Brainly\UserInterface\Symfony\AppBundle\ParamConverter\QuestionParamConverter
+        arguments:
+            - '@Brainly\Infrastructure\Domain\QuestionsRepository'
+        tags:
+            - { name: request.param_converter, priority: 1, converter: question_id_string }

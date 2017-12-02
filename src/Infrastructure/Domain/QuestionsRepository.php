@@ -6,6 +6,7 @@ use Brainly\Domain\Question;
 use Brainly\Domain\Questions;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class QuestionsRepository implements Questions
 {
@@ -37,5 +38,10 @@ class QuestionsRepository implements Questions
     public function all(): array
     {
         return $this->repository->findAll();
+    }
+
+    public function findById(UuidInterface $uuid): ?Question
+    {
+        return $this->repository->find($uuid);
     }
 }

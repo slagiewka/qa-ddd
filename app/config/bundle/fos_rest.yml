@@ -19,4 +19,10 @@ fos_rest:
         include_format: false
     exception:
         codes:
-            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            Symfony\Component\Routing\Exception\ResourceNotFoundException: 404
+            Symfony\Component\HttpKernel\Exception\NotFoundHttpException: 404
+            Ramsey\Uuid\Exception\InvalidUuidStringException: 400
+        messages:
+            Symfony\Component\Routing\Exception\ResourceNotFoundException: false
+            Symfony\Component\HttpKernel\Exception\NotFoundHttpException: false
+            Ramsey\Uuid\Exception\InvalidUuidStringException: true

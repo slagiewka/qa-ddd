@@ -14,7 +14,10 @@ use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ramsey\Uuid\Uuid;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use function sprintf;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -141,7 +144,7 @@ class QuestionsController extends FOSRestController
 
     /**
      * @ApiDoc(
-     *  description="Add answer to a question question.",
+     *  description="Get answers for a question.",
      *  requirements={
      *      {
      *          "name"="question",
@@ -162,7 +165,12 @@ class QuestionsController extends FOSRestController
      */
     public function getQuestionAnswersAction(Question $question): Response
     {
-        $view = $this->view($question->answers())->setContext((new Context())->setGroups(['answers']));
+        $view = $this
+            ->view($question->answers())
+            ->setContext(
+                (new Context())->setGroups(['answers'])
+            )
+        ;
 
         return $this->handleView($view);
     }

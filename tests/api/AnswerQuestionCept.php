@@ -6,7 +6,6 @@ $I->wantTo('answer a given question with UUID 26afabba-f72b-42cb-a745-22faab2df6
 $I->sendGET(sprintf('/questions/%s/answers', $uuid));
 $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK);
 $I->seeResponseEquals('[]');
-//$I->don
 $I->sendPOST(
     sprintf('/questions/%s/answers', $uuid),
     ['content' => $answer]
