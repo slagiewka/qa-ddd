@@ -6,7 +6,7 @@ Sample Q & A RESTful application written with DDD approach. It's my first take o
 Prerequisites
 ---
 
-  * PHP > 7.1
+  * PHP >= 7.1
   * Composer
   * MySQL (or any Doctrine DBAL compatible DB - requires config adjustment)
 

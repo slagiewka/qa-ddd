@@ -31,4 +31,9 @@ class DomainFactoryTest extends TestCase
         $this->assertSame($question, $result->question());
         $this->assertEquals($answer, (string) $result->content());
     }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }

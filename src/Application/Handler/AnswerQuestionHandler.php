@@ -10,7 +10,6 @@ class AnswerQuestionHandler
 {
     /** @var Factory */
     private $factory;
-
     /** @var Answers $answers */
     private $answers;
 
@@ -23,7 +22,6 @@ class AnswerQuestionHandler
     public function handle(AnswerQuestionCommand $command): void
     {
         $answer = $this->factory->answerQuestion($command->question(), $command->content());
-
         $this->answers->add($answer);
     }
 }

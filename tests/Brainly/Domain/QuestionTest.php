@@ -96,4 +96,9 @@ class QuestionTest extends TestCase
         $anotherAnswer = Mockery::mock(Answer::class);
         $this->question->answerQuestion($anotherAnswer);
     }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }

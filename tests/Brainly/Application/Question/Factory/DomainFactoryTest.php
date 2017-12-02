@@ -25,4 +25,9 @@ class DomainFactoryTest extends TestCase
 
         $this->assertEquals($contentString, (string) $result->content());
     }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }

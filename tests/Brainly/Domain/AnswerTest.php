@@ -61,4 +61,9 @@ class AnswerTest extends TestCase
 
         $this->assertSame($this->timestamp, $result);
     }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }

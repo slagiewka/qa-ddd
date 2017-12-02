@@ -19,4 +19,9 @@ class AnswerQuestionCommandTest extends TestCase
         $this->assertSame($question, $command->question());
         $this->assertSame($answer, $command->content());
     }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }

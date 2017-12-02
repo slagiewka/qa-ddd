@@ -8,7 +8,6 @@ class AnswerQuestionCommand implements Command
 {
     /** @var Question */
     private $question;
-
     /** @var string */
     private $content;
 
