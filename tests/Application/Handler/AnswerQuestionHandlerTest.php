@@ -11,6 +11,7 @@ use Brainly\Domain\Question;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class AnswerQuestionHandlerTest extends TestCase
 {
@@ -22,17 +23,18 @@ class AnswerQuestionHandlerTest extends TestCase
         $factory = Mockery::mock(Factory::class);
         /** @var Answer|MockInterface $answer */
         $answer = Mockery::mock(Answer::class);
-
+        $uuid = Mockery::mock(UuidInterface::class);
         $question = Mockery::mock(Question::class);
         $content = 'test content';
         /** @var AnswerQuestionCommand|MockInterface $command */
         $command = Mockery::mock(AnswerQuestionCommand::class);
+        $command->shouldReceive('uuid')->andReturn($uuid);
         $command->shouldReceive('question')->andReturn($question);
         $command->shouldReceive('content')->andReturn($content);
 
         $handler = new AnswerQuestionHandler($answers, $factory);
 
-        $factory->shouldReceive('answerQuestion')->once()->with($question, $content)->andReturn($answer);
+        $factory->shouldReceive('answerQuestion')->once()->with($uuid, $question, $content)->andReturn($answer);
         $answers->shouldReceive('add')->once()->with($answer);
 
         $handler->handle($command);

@@ -52,7 +52,12 @@ The documentation can also serve as a sandbox to try endpoints.
 Testing
 ---
 
-To run the test suite run:
+To run the unit test suite run:
 ```shell
     $ ./vendor/bin/phpunit -c phpunit.xml.dist
+```
+
+To run the API test suite run:
+```shell
+    $ ./vendor/bin/codecept run
 ```

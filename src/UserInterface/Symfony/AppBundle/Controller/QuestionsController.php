@@ -13,6 +13,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -99,7 +100,8 @@ class QuestionsController extends FOSRestController
      */
     public function postQuestionsAction(ParamFetcher $paramFetcher): Response
     {
-        $askQuestionCommand = new AskQuestionCommand($paramFetcher->get('content'));
+        $id = Uuid::uuid4();
+        $askQuestionCommand = new AskQuestionCommand($id, $paramFetcher->get('content'));
 
         return $this->handleCommand($askQuestionCommand);
     }
@@ -131,7 +133,8 @@ class QuestionsController extends FOSRestController
      */
     public function postQuestionAnswersAction(Question $question, ParamFetcher $paramFetcher): Response
     {
-        $answerQuestionCommand = new AnswerQuestionCommand($question, $paramFetcher->get('content'));
+        $id = Uuid::uuid4();
+        $answerQuestionCommand = new AnswerQuestionCommand($id, $question, $paramFetcher->get('content'));
 
         return $this->handleCommand($answerQuestionCommand);
     }
@@ -189,7 +192,7 @@ class QuestionsController extends FOSRestController
     {
         $this->commandBus->handle($command);
 
-        return $this->handleView($this->view(null, Response::HTTP_OK));
+        return $this->handleView($this->view(['id' => $command->uuid()->toString()], Response::HTTP_OK));
     }
 
     private function handleErrorResponse(array $errors): Response

@@ -22,7 +22,7 @@ class AskQuestionHandler
 
     public function handle(AskQuestionCommand $command): void
     {
-        $question = $this->factory->createQuestion($command->content());
+        $question = $this->factory->createQuestion($command->uuid(), $command->content());
         $this->questions->add($question);
     }
 }

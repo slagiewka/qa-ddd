@@ -1,0 +1,13 @@
+actor: ApiTester
+modules:
+    enabled:
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=brainly'
+            user: 'root'
+            password: ''
+            dump: 'tests/_data/dump.sql'
+            populate: true
+            cleanup: true
+            reconnect: true
+        - REST:
+            depends: Symfony

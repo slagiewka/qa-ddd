@@ -8,6 +8,7 @@ use Brainly\Domain\Content;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class DomainFactoryTest extends TestCase
 {
@@ -19,9 +20,11 @@ class DomainFactoryTest extends TestCase
         $content = Mockery::mock(Content::class);
         $content->shouldReceive('__toString')->andReturn($contentString);
         $contentFactory->shouldReceive('createContent')->withArgs([$contentString])->andReturn($content);
+        /** @var UuidInterface|MockInterface $uuid */
+        $uuid = Mockery::mock(UuidInterface::class);
         $factory = new DomainFactory($contentFactory);
 
-        $result = $factory->createQuestion($contentString);
+        $result = $factory->createQuestion($uuid, $contentString);
 
         $this->assertEquals($contentString, (string) $result->content());
     }

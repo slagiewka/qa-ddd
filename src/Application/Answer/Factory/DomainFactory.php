@@ -8,6 +8,7 @@ use Brainly\Domain\Answer;
 use Brainly\Domain\Question;
 use Cake\Chronos\Chronos;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class DomainFactory implements Factory
 {
@@ -19,10 +20,10 @@ class DomainFactory implements Factory
         $this->contentFactory = $contentFactory;
     }
 
-    public function answerQuestion(Question $question, string $answer): Answer
+    public function answerQuestion(UuidInterface $uuid, Question $question, string $answer): Answer
     {
         return new Answer(
-            Uuid::uuid4(),
+            $uuid,
             $question,
             $this->contentFactory->createContent($answer),
             Chronos::now()->timestamp
