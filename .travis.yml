@@ -12,8 +12,8 @@ cache:
 before_install:
     - mysql -e 'CREATE DATABASE brainly;'
 install:
-    - composer update --prefer-source $COMPOSER_FLAGS
     - composer global require hirak/prestissimo
+    - composer update --prefer-source $COMPOSER_FLAGS
 
 script:
     - phpunit --coverage-text -c phpunit.xml.dist
