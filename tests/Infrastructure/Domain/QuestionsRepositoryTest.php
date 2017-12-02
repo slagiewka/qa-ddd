@@ -74,7 +74,7 @@ class QuestionsRepositoryTest extends TestCase
 
         $this->objectRepository->shouldReceive('find')->once()->with($uuid)->andReturnNull();
         $result = $this->repository->findById($uuid);
-        $this->assertEquals(null, $result);
+        $this->assertNull($result);
 
         $this->objectRepository->shouldReceive('find')->once()->with($uuid)->andReturn($this->question);
         $result = $this->repository->findById($uuid);

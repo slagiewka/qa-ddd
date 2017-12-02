@@ -5,6 +5,7 @@ namespace Brainly\Infrastructure\Domain;
 use Brainly\Domain\Answer;
 use Brainly\Domain\Answers;
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class AnswersRepository implements Answers
 {
@@ -26,5 +27,18 @@ class AnswersRepository implements Answers
     {
         $this->manager->remove($answer);
         $this->manager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function all(): array
+    {
+        return $this->manager->getRepository(Answer::class)->findAll();
+    }
+
+    public function findById(UuidInterface $uuid): ?Answer
+    {
+        return $this->manager->getRepository(Answer::class)->find($uuid);
     }
 }

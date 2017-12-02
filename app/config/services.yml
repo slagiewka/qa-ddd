@@ -1,6 +1,7 @@
 imports:
     - { resource: services/tactician.yml }
     - { resource: services/question.yml }
+    - { resource: services/answer.yml }
 
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html

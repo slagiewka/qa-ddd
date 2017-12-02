@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace Tests\Brainly\UserInterface\Symfony\AppBundle\ParamConverter;
 
-use Brainly\Domain\Question;
-use Brainly\Domain\Questions;
-use Brainly\UserInterface\Symfony\AppBundle\ParamConverter\QuestionParamConverter;
+use Brainly\Domain\Answer;
+use Brainly\Domain\Answers;
+use Brainly\UserInterface\Symfony\AppBundle\ParamConverter\UuidAnswerParamConverter;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
@@ -13,20 +13,20 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class QuestionParamConverterTest extends TestCase
+class UuidAnswerParamConverterTest extends TestCase
 {
-    /** @var QuestionParamConverter */
+    /** @var UuidAnswerParamConverter */
     private $converter;
-    /** @var Questions|MockInterface */
-    private $questions;
+    /** @var Answers|MockInterface */
+    private $answers;
     /** @var ParamConverter|MockInterface */
     private $configuration;
 
     protected function setUp()
     {
-        $this->questions = Mockery::mock(Questions::class);
+        $this->answers = Mockery::mock(Answers::class);
         $this->configuration = Mockery::mock(ParamConverter::class);
-        $this->converter = new QuestionParamConverter($this->questions);
+        $this->converter = new UuidAnswerParamConverter($this->answers);
     }
 
     public function testSuccessfulApply()
@@ -36,15 +36,15 @@ class QuestionParamConverterTest extends TestCase
         $attributes = Mockery::mock(ParameterBag::class);
         $request->attributes = $attributes;
 
-        $name = 'question';
+        $name = 'answer';
         $value = '875d457d-7c86-403d-b14a-f232c776d622'; //Random UUID
         $this->configuration->shouldReceive('getName')->once()->andReturn($name);
         $attributes->shouldReceive('has')->once()->with($name)->andReturn(true);
         $attributes->shouldReceive('get')->once()->with($name)->andReturn($value);
 
-        $question = Mockery::mock(Question::class);
-        $this->questions->shouldReceive('findById')->once()->andReturn($question);
-        $attributes->shouldReceive('set')->once()->with($name, $question);
+        $answer = Mockery::mock(Answer::class);
+        $this->answers->shouldReceive('findById')->once()->andReturn($answer);
+        $attributes->shouldReceive('set')->once()->with($name, $answer);
 
         $result = $this->converter->apply($request, $this->configuration);
 
@@ -59,7 +59,7 @@ class QuestionParamConverterTest extends TestCase
         $request->attributes = $attributes;
         /** @var ParamConverter|MockInterface $configuration */
 
-        $name = 'question';
+        $name = 'answer';
         $this->configuration->shouldReceive('getName')->once()->andReturn($name);
         $attributes->shouldReceive('has')->once()->with($name)->andReturn(false);
 
@@ -68,20 +68,20 @@ class QuestionParamConverterTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testApplyWithQuestionNotFound()
+    public function testApplyWithAnswerNotFound()
     {
         /** @var Request|MockInterface $request */
         $request = Mockery::mock(Request::class);
         $attributes = Mockery::mock(ParameterBag::class);
         $request->attributes = $attributes;
 
-        $name = 'question';
+        $name = 'answer';
         $value = '875d457d-7c86-403d-b14a-f232c776d622'; //Random UUID
         $this->configuration->shouldReceive('getName')->once()->andReturn($name);
         $attributes->shouldReceive('has')->once()->with($name)->andReturn(true);
         $attributes->shouldReceive('get')->once()->with($name)->andReturn($value);
 
-        $this->questions->shouldReceive('findById')->once()->andReturnNull();
+        $this->answers->shouldReceive('findById')->once()->andReturnNull();
 
         $this->expectException(NotFoundHttpException::class);
         $result = $this->converter->apply($request, $this->configuration);
@@ -91,7 +91,7 @@ class QuestionParamConverterTest extends TestCase
 
     public function testSupports()
     {
-        $this->configuration->shouldReceive('getClass')->once()->andReturn(Question::class);
+        $this->configuration->shouldReceive('getClass')->once()->andReturn(Answer::class);
         $result = $this->converter->supports($this->configuration);
         $this->assertTrue($result);
 

@@ -72,6 +72,7 @@ class QuestionsController extends FOSRestController
      *  },
      *  statusCodes={
      *      200="Returned when successful",
+     *      400="Returned when the request parameters are invalid",
      *      404="Returned when the question was not found"
      *  }
      * )
@@ -155,6 +156,7 @@ class QuestionsController extends FOSRestController
      *  },
      *  statusCodes={
      *      200="Returned when successful",
+     *      400="Returned when the request parameters are invalid",
      *      404="Returned when the question was not found"
      *  }
      * )
@@ -168,7 +170,7 @@ class QuestionsController extends FOSRestController
         $view = $this
             ->view($question->answers())
             ->setContext(
-                (new Context())->setGroups(['answers'])
+                (new Context())->setGroups(['single_question'])
             )
         ;
 

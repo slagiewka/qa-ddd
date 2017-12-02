@@ -3,8 +3,6 @@ Brainly\Domain\Answer:
     properties:
         createdAt:
             groups: [single_question, answers]
-        content:
-            groups: [single_question, answers]
 
     virtual_properties:
         content:
@@ -15,3 +13,7 @@ Brainly\Domain\Answer:
             exp: object.uuid()
             type: string
             groups: [single_question, answers]
+        questionId:
+            exp: object.question().uuid()
+            type: string
+            groups: [answers]

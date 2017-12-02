@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\UuidInterface;
 
 class AnswersRepositoryTest extends TestCase
 {
@@ -41,6 +42,35 @@ class AnswersRepositoryTest extends TestCase
         $this->repository->remove($this->answer);
 
         $this->assertTrue(true);
+    }
+
+    public function testAll()
+    {
+        $answers = ['answer', 'answer'];
+        $this
+            ->entityManager
+            ->shouldReceive('getRepository->findAll')
+            ->once()
+            ->andReturn($answers)
+        ;
+
+        $result = $this->repository->all();
+
+        $this->assertEquals($answers, $result);
+    }
+
+    public function testFindById()
+    {
+        /** @var UuidInterface|MockInterface $uuid */
+        $uuid = Mockery::mock(UuidInterface::class);
+
+        $this->entityManager->shouldReceive('getRepository->find')->once()->with($uuid)->andReturnNull();
+        $result = $this->repository->findById($uuid);
+        $this->assertNull($result);
+
+        $this->entityManager->shouldReceive('getRepository->find')->once()->with($uuid)->andReturn($this->answer);
+        $result = $this->repository->findById($uuid);
+        $this->assertEquals($this->answer, $result);
     }
 
     public function tearDown()

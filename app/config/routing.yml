@@ -2,6 +2,10 @@ questions:
     type: rest
     resource: Brainly\UserInterface\Symfony\AppBundle\Controller\QuestionsController
 
+answers:
+    type: rest
+    resource: Brainly\UserInterface\Symfony\AppBundle\Controller\AnswersController
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc
