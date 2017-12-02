@@ -9,7 +9,11 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
-install: composer update --prefer-source $COMPOSER_FLAGS
+before_install:
+    - mysql -e 'CREATE DATABASE brainly;'
+install:
+    - composer update --prefer-source $COMPOSER_FLAGS
+    - composer global require hirak/prestissimo
 
 script:
     - phpunit --coverage-text -c phpunit.xml.dist
