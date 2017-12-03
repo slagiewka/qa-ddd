@@ -1,5 +1,6 @@
 Brainly\Domain\Answer:
     type: entity
+    repositoryClass: Brainly\Infrastructure\Persistence\Doctrine\Repository\AnswersRepository
     table: answers
     id:
         uuid:

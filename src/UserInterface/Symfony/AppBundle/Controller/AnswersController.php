@@ -4,12 +4,10 @@ namespace Brainly\UserInterface\Symfony\AppBundle\Controller;
 
 use Brainly\Domain\Answer;
 use Brainly\Domain\Answers;
-use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\Response;
 
-class AnswersController extends FOSRestController
+class AnswersController extends AbstractResourceController
 {
     /** @var Answers */
     private $answers;
@@ -32,9 +30,8 @@ class AnswersController extends FOSRestController
      */
     public function getAnswersAction(): Response
     {
-        $data = $this->answers->all();
-
-        $view = $this->view($data)->setContext((new Context())->setGroups(['answers']));
+        $answers = $this->answers->all();
+        $view = $this->createContextDependentView($answers, 'answers');
 
         return $this->handleView($view);
     }
@@ -63,7 +60,7 @@ class AnswersController extends FOSRestController
      */
     public function getAnswerAction(Answer $answer): Response
     {
-        $view = $this->view($answer)->setContext((new Context())->setGroups(['answers']));
+        $view = $this->createContextDependentView($answer, 'answers');
 
         return $this->handleView($view);
     }

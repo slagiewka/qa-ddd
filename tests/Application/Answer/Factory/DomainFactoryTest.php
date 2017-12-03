@@ -13,7 +13,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class DomainFactoryTest extends TestCase
 {
-    public function testAnswerQuestion()
+    public function testCreateAnswer()
     {
         /** @var Factory|MockInterface $contentFactory */
         $contentFactory = Mockery::mock(Factory::class);
@@ -29,7 +29,7 @@ class DomainFactoryTest extends TestCase
         $content->shouldReceive('__toString')->andReturn($answer);
         $contentFactory->shouldReceive('createContent')->withArgs([$answer])->andReturn($content);
 
-        $result = $factory->answerQuestion($uuid, $question, $answer);
+        $result = $factory->createAnswer($uuid, $question, $answer);
 
         $this->assertSame($uuid, $result->uuid());
         $this->assertSame($question, $result->question());

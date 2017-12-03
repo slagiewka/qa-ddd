@@ -1,10 +1,4 @@
 services:
-    Brainly\Infrastructure\Domain\QuestionsRepository:
-        arguments:
-            - "@questions.repository"
-            - "@doctrine.orm.entity_manager"
-
-
     brainly.param_coverter.question_id_string:
         class: Brainly\UserInterface\Symfony\AppBundle\ParamConverter\UuidQuestionParamConverter
         arguments:

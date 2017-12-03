@@ -4,19 +4,19 @@ namespace Brainly\Infrastructure\Domain;
 
 use Brainly\Domain\Question;
 use Brainly\Domain\Questions;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Brainly\Infrastructure\Persistence\Doctrine\Repository\QuestionsRepository as DoctrineQuestionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 
 class QuestionsRepository implements Questions
 {
-    /** @var ObjectRepository */
+    /** @var DoctrineQuestionsRepository */
     private $repository;
 
     /** @var EntityManagerInterface */
     private $manager;
 
-    public function __construct(ObjectRepository $repository, EntityManagerInterface $manager)
+    public function __construct(DoctrineQuestionsRepository $repository, EntityManagerInterface $manager)
     {
         $this->repository = $repository;
         $this->manager = $manager;

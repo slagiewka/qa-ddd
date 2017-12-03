@@ -20,7 +20,7 @@ class DomainFactory implements Factory
         $this->contentFactory = $contentFactory;
     }
 
-    public function answerQuestion(UuidInterface $uuid, Question $question, string $answer): Answer
+    public function createAnswer(UuidInterface $uuid, Question $question, string $answer): Answer
     {
         return new Answer(
             $uuid,

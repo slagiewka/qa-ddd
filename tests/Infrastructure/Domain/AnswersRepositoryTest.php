@@ -4,6 +4,7 @@ namespace Tests\Brainly\Infrastructure\Domain;
 
 use Brainly\Domain\Answer;
 use Brainly\Infrastructure\Domain\AnswersRepository;
+use Brainly\Infrastructure\Persistence\Doctrine\Repository\AnswersRepository as DoctrineAnswersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Mockery;
 use Mockery\MockInterface;
@@ -16,14 +17,17 @@ class AnswersRepositoryTest extends TestCase
     private $repository;
     /** @var EntityManagerInterface|MockInterface */
     private $entityManager;
+    /** @var DoctrineAnswersRepository|MockInterface */
+    private $doctrineRepository;
     /** @var Answer|MockInterface */
     private $answer;
 
     protected function setUp()
     {
         $this->entityManager = Mockery::mock(EntityManagerInterface::class);
+        $this->doctrineRepository = Mockery::mock(DoctrineAnswersRepository::class);
         $this->answer = Mockery::mock(Answer::class);
-        $this->repository = new AnswersRepository($this->entityManager);
+        $this->repository = new AnswersRepository($this->doctrineRepository, $this->entityManager);
     }
 
     public function testAdd()
@@ -48,8 +52,8 @@ class AnswersRepositoryTest extends TestCase
     {
         $answers = ['answer', 'answer'];
         $this
-            ->entityManager
-            ->shouldReceive('getRepository->findAll')
+            ->doctrineRepository
+            ->shouldReceive('findAll')
             ->once()
             ->andReturn($answers)
         ;
@@ -64,11 +68,11 @@ class AnswersRepositoryTest extends TestCase
         /** @var UuidInterface|MockInterface $uuid */
         $uuid = Mockery::mock(UuidInterface::class);
 
-        $this->entityManager->shouldReceive('getRepository->find')->once()->with($uuid)->andReturnNull();
+        $this->doctrineRepository->shouldReceive('find')->once()->with($uuid)->andReturnNull();
         $result = $this->repository->findById($uuid);
         $this->assertNull($result);
 
-        $this->entityManager->shouldReceive('getRepository->find')->once()->with($uuid)->andReturn($this->answer);
+        $this->doctrineRepository->shouldReceive('find')->once()->with($uuid)->andReturn($this->answer);
         $result = $this->repository->findById($uuid);
         $this->assertEquals($this->answer, $result);
     }

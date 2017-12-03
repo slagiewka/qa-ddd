@@ -8,5 +8,5 @@ use Ramsey\Uuid\UuidInterface;
 
 interface Factory
 {
-    public function answerQuestion(UuidInterface $uuid, Question $question, string $answer): Answer;
+    public function createAnswer(UuidInterface $uuid, Question $question, string $answer): Answer;
 }

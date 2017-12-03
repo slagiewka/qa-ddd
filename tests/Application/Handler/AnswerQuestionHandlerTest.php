@@ -34,7 +34,7 @@ class AnswerQuestionHandlerTest extends TestCase
 
         $handler = new AnswerQuestionHandler($answers, $factory);
 
-        $factory->shouldReceive('answerQuestion')->once()->with($uuid, $question, $content)->andReturn($answer);
+        $factory->shouldReceive('createAnswer')->once()->with($uuid, $question, $content)->andReturn($answer);
         $answers->shouldReceive('add')->once()->with($answer);
 
         $handler->handle($command);

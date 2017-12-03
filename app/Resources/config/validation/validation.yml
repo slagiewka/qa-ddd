@@ -16,5 +16,5 @@ Brainly\Application\Command\AnswerQuestionCommand:
                 min: 20
                 max: 5000
         question:
-            - Brainly\UserInterface\Symfony\AppBundle\Constraints\MaxAnswersNotExceeded:
+            - Brainly\UserInterface\Symfony\AppBundle\Constraints\AnswerLimitWIllNotBeExceeded:
                 message: 'Answering is possible only for questions with less than 2 answers.'

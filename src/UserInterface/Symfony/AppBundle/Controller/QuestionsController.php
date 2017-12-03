@@ -8,20 +8,15 @@ use Brainly\Application\Command\Command;
 use Brainly\Application\CommandBus;
 use Brainly\Domain\Question;
 use Brainly\Domain\Questions;
-use FOS\RestBundle\Context\Context;
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Ramsey\Uuid\Uuid;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use function sprintf;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class QuestionsController extends FOSRestController
+class QuestionsController extends AbstractResourceController
 {
     /** @var CommandBus */
     private $commandBus;
@@ -52,9 +47,9 @@ class QuestionsController extends FOSRestController
      */
     public function getQuestionsAction(): Response
     {
-        $data = $this->questions->all();
+        $questions = $this->questions->all();
 
-        $view = $this->view($data)->setContext((new Context())->setGroups(['questions']));
+        $view = $this->createContextDependentView($questions, 'questions');
 
         return $this->handleView($view);
     }
@@ -83,7 +78,7 @@ class QuestionsController extends FOSRestController
      */
     public function getQuestionAction(Question $question): Response
     {
-        $view = $this->view($question)->setContext((new Context())->setGroups(['single_question']));
+        $view = $this->createContextDependentView($question, 'single_question');
 
         return $this->handleView($view);
     }
@@ -167,12 +162,7 @@ class QuestionsController extends FOSRestController
      */
     public function getQuestionAnswersAction(Question $question): Response
     {
-        $view = $this
-            ->view($question->answers())
-            ->setContext(
-                (new Context())->setGroups(['single_question'])
-            )
-        ;
+        $view = $this->createContextDependentView($question->answers(), 'single_question');
 
         return $this->handleView($view);
     }
@@ -194,11 +184,11 @@ class QuestionsController extends FOSRestController
 
         return count($errors)
             ? $this->handleErrorResponse($errors)
-            : $this->handleSuccessResponse($command)
+            : $this->executeCommand($command)
         ;
     }
 
-    private function handleSuccessResponse(Command $command): Response
+    private function executeCommand(Command $command): Response
     {
         $this->commandBus->handle($command);
 

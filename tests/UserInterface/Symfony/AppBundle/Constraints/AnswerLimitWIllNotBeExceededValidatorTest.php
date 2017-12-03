@@ -3,27 +3,27 @@ declare(strict_types=1);
 namespace Tests\Brainly\UserInterface\Symfony\AppBundle\Constraints;
 
 use Brainly\Domain\Question;
-use Brainly\UserInterface\Symfony\AppBundle\Constraints\MaxAnswersNotExceeded;
-use Brainly\UserInterface\Symfony\AppBundle\Constraints\MaxAnswersNotExceededValidator;
+use Brainly\UserInterface\Symfony\AppBundle\Constraints\AnswerLimitWIllNotBeExceeded;
+use Brainly\UserInterface\Symfony\AppBundle\Constraints\AnswerLimitWIllNotBeExceededValidator;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
-class MaxAnswersNotExceededValidatorTest extends TestCase
+class AnswerLimitWIllNotBeExceededValidatorTest extends TestCase
 {
-    /** @var MaxAnswersNotExceededValidator */
+    /** @var AnswerLimitWIllNotBeExceededValidator */
     private $validator;
-    /** @var MaxAnswersNotExceeded|MockInterface */
+    /** @var AnswerLimitWIllNotBeExceeded|MockInterface */
     private $constraint;
     /** @var ExecutionContextInterface|MockInterface */
     private $context;
 
     protected function setUp()
     {
-        $this->validator = new MaxAnswersNotExceededValidator();
-        $this->constraint = Mockery::mock(MaxAnswersNotExceeded::class);
+        $this->validator = new AnswerLimitWIllNotBeExceededValidator();
+        $this->constraint = Mockery::mock(AnswerLimitWIllNotBeExceeded::class);
         $this->constraint->message = 'Validation message';
         $this->context = Mockery::mock(ExecutionContextInterface::class);
         $this->validator->initialize($this->context);
